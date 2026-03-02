@@ -5,6 +5,31 @@ function UserCard({ name, email }) {
     .map((n) => n[0])
     .join("");
 
+
+  // ใช้ switch case เพื่อกำหนดสีของ avatar ตาม index ที่คำนวณได้จากชื่อผู้ใช้
+  // คำนวณหา index ของสี (จะได้ค่า 0, 1 หรือ 2)
+
+  //1.เปลี่ยนตัวอักษรแรกของชื่อเป็นตัวเลขโดยใช้ charCodeAt(0)
+  //2.นำตัวเลขที่ได้มาหารด้วย 3 แล้วเอาเศษ (modulo) เพื่อให้ได้ค่า index ที่อยู่ในช่วง 0-2
+  //3.ใช้ switch case เพื่อตั้งค่าสีของ avatar ตามค่า index ที่ได้
+  //ใช้ switch case หรือ if else ก็ได้ 
+  const colorIndex = name.charCodeAt(0) % 3;
+
+  let AvatarColor;
+  switch (colorIndex) {
+    case 0:
+      AvatarColor = "#1e40af"; // น้ำเงิน
+      break;
+    case 1:
+      AvatarColor = "#16a34a"; // เขียว
+      break;
+    case 2:
+      AvatarColor = "#9333ea"; // ม่วง
+      break;
+    default:
+      AvatarColor = "#1e40af";
+  }
+
   return (
     <div
       style={{
@@ -22,7 +47,7 @@ function UserCard({ name, email }) {
         style={{
           width: "40px",
           height: "40px",
-          background: "#1e40af",
+          background: AvatarColor,
           color: "white",
           borderRadius: "50%",
           display: "flex",
