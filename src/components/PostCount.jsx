@@ -7,7 +7,7 @@ function PostCount({ count }) {
         paddingBottom: "0.5rem",
       }}
     >
-      <h2>โพสต์ทั้งหมด: {count} รายการ</h2>
+      โพสต์ทั้งหมด: {count} รายการ
     </div>
   );
 }
