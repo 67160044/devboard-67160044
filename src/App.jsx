@@ -1,7 +1,6 @@
 import Navbar from "./components/Navbar";
 import PostList from "./components/PostList";
 import UserCard from "./components/UserCard";
-import PostCount from "./components/PostCount";
 
 const POSTS = [
   {
@@ -49,7 +48,6 @@ function App() {
         {/* คอลัมน์ซ้าย: โพสต์ */}
         <div>
           <PostList posts={POSTS} />
-          <PostCount count={POSTS.length} />
         </div>
 
         {/* คอลัมน์ขวา: สมาชิก */}
