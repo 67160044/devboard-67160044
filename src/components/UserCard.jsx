@@ -5,15 +5,16 @@ function UserCard({ name, email }) {
     .map((n) => n[0])
     .join("");
 
-
   // ใช้ switch case เพื่อกำหนดสีของ avatar ตาม index ที่คำนวณได้จากชื่อผู้ใช้
   // คำนวณหา index ของสี (จะได้ค่า 0, 1 หรือ 2)
 
   //1.เปลี่ยนตัวอักษรแรกของชื่อเป็นตัวเลขโดยใช้ charCodeAt(0)
   //2.นำตัวเลขที่ได้มาหารด้วย 3 แล้วเอาเศษ (modulo) เพื่อให้ได้ค่า index ที่อยู่ในช่วง 0-2
   //3.ใช้ switch case เพื่อตั้งค่าสีของ avatar ตามค่า index ที่ได้
-  //ใช้ switch case หรือ if else ก็ได้ 
-  const colorIndex = name.charCodeAt(0) % 3;
+  //ใช้ switch case หรือ if else ก็ได้
+
+  //ขอปรับมาใช้ name.length % 3 แทนเพื่อให้สีต่างกันเนื่องจาก"ส" และ "ว" มีค่า charCode % 3 เป็น 2 เหมือนกันทั้งหมดจึงได้แต่สีม่วง
+  const colorIndex = name.length % 3;
 
   let AvatarColor;
   switch (colorIndex) {
