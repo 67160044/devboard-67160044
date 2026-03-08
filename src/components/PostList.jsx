@@ -5,10 +5,21 @@ import PostCount from "./PostCount";
 function PostList({ posts, favorites, onToggleFavorite }) {
   const [search, setSearch] = useState("");
 
+  // 1. เพิ่ม State สำหรับเก็บสถานะการเรียงลำดับ ('Newest' = ใหม่สุด, 'Oldest' = เก่าสุด)
+  const [sortOrder, setSortOrder] = useState("Newest");
+
   // กรองโพสต์ตาม search
   const filtered = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()),
   );
+
+  // เรียงลำดับโพสต์ตามสถานะ
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortOrder === "Newest") {
+      return b.id - a.id; // ใหม่สุดก่อน
+    }
+    return a.id - b.id; // เก่าสุดก่อน
+  });
 
   return (
     <div>
@@ -40,6 +51,23 @@ function PostList({ posts, favorites, onToggleFavorite }) {
           boxSizing: "border-box",
         }}
       />
+      {/* Sort button */}
+      <div style={{ marginBottom: "1rem", textAlign: "right" }}>
+        <button
+          onClick={() => setSortOrder(sortOrder === "Newest" ? "Oldest" : "Newest")}
+          style={{
+            background: "#1e40af",
+            color: "white",
+            border: "none",
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
+          เรียงลำดับ: {sortOrder === "Newest" ? "ใหม่สุด" : "เก่าสุด"}
+        </button>
+      </div>
 
       {/* ถ้าไม่พบโพสต์ */}
       {filtered.length === 0 && (
@@ -49,7 +77,7 @@ function PostList({ posts, favorites, onToggleFavorite }) {
       )}
 
       {/* แสดงรายการโพสต์ */}
-      {filtered.map((post) => (
+      {sorted.map((post) => (
         <PostCard
           key={post.id}
           title={post.title}
