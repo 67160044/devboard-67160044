@@ -44,7 +44,7 @@ function App() {
   };
   return (
     <div>
-      <Navbar />
+      <Navbar favoriteCount={favorites.length} />
       <div
         style={{
           maxWidth: "900px",
