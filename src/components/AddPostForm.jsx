@@ -4,6 +4,11 @@ function AddPostForm({ onAddPost }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
+  // จำกัดความยาวหัวข้อไม่เกิน 100 ตัวอักษร
+  const maxTitleLength = 100;
+  // คำนวณจำนวนตัวอักษรที่เหลือ
+  const remaining = maxTitleLength - title.length;
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!title.trim() || !body.trim()) return; // ป้องกันส่งว่าง
@@ -43,6 +48,18 @@ function AddPostForm({ onAddPost }) {
           boxSizing: "border-box",
         }}
       />
+    
+      <div
+        style={{
+          textAlign: "right",
+          fontSize: "0.8rem",
+          marginBottom: "0.5rem",
+          color: remaining < 10 ? "#e53e3e" : "#718096",
+          fontWeight: remaining < 10 ? "bold" : "normal",
+        }}
+      >
+        {title.length}/{maxTitleLength}
+      </div>
 
       <textarea
         placeholder="เนื้อหาโพสต์"
