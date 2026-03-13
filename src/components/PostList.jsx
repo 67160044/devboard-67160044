@@ -3,7 +3,6 @@ import PostCard from "./PostCard";
 import LoadingSpinner from "./LoadingSpinner";
 import PostCount from "./PostCount";
 
-
 function PostList({ favorites, onToggleFavorite }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,21 +11,21 @@ function PostList({ favorites, onToggleFavorite }) {
 
   const [sortOrder, setSortOrder] = useState("Newest");
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        setLoading(true);
-        setError(null);
-        const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-        if (!res.ok) throw new Error("ดึงข้อมูลไม่สำเร็จ");
-        const data = await res.json();
-        setPosts(data.slice(0, 20)); // เอาแค่ 20 รายการแรก
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchPosts() {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+      if (!res.ok) throw new Error("ดึงข้อมูลไม่สำเร็จ");
+      const data = await res.json();
+      setPosts(data.slice(0, 20)); // เอาแค่ 20 รายการแรก
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  }
+  useEffect(() => {
     fetchPosts();
   }, []); // [] = ทำครั้งเดียวตอน component mount
 
@@ -61,15 +60,38 @@ function PostList({ favorites, onToggleFavorite }) {
 
   return (
     <div>
-      <h2
+      <div
         style={{
-          color: "#ffffff",
-          borderBottom: "2px solid #1e40af",
-          paddingBottom: "0.5rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        โพสต์ล่าสุด
-      </h2>
+        <h2
+          style={{
+            color: "#ffffff",
+            borderBottom: "2px solid #1e40af",
+            paddingBottom: "0.5rem",
+          }}
+        >
+          โพสต์ล่าสุด
+        </h2>
+
+        {/* --- ปุ่มโหลดใหม่ --- */}
+        <button
+          onClick={fetchPosts}
+          style={{
+            background: "#1e40af",
+            color: "white",
+            border: "none",
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+        >
+          🔄 โหลดใหม่
+        </button>
+      </div>
 
       <PostCount count={posts.length} />
 
