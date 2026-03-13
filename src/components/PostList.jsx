@@ -1,14 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 import PostCard from "./PostCard";
 import PostCount from "./PostCount";
 
-function PostList({ posts, favorites, onToggleFavorite }) {
+
+function PostList({ favorites, onToggleFavorite }) {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
 
-  // 1. เพิ่ม State สำหรับเก็บสถานะการเรียงลำดับ ('Newest' = ใหม่สุด, 'Oldest' = เก่าสุด)
   const [sortOrder, setSortOrder] = useState("Newest");
 
-  // กรองโพสต์ตาม search
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+        if (!res.ok) throw new Error("ดึงข้อมูลไม่สำเร็จ");
+        const data = await res.json();
+        setPosts(data.slice(0, 20)); // เอาแค่ 20 รายการแรก
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPosts();
+  }, []); // [] = ทำครั้งเดียวตอน component mount
+
   const filtered = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()),
   );
@@ -20,6 +41,23 @@ function PostList({ posts, favorites, onToggleFavorite }) {
     }
     return a.id - b.id; // เก่าสุดก่อน
   });
+
+  if (loading) return <LoadingSpinner />;
+
+  if (error)
+    return (
+      <div
+        style={{
+          padding: "1.5rem",
+          background: "#fff5f5",
+          border: "1px solid #fc8181",
+          borderRadius: "8px",
+          color: "#c53030",
+        }}
+      >
+        เกิดข้อผิดพลาด: {error}
+      </div>
+    );
 
   return (
     <div>
@@ -54,7 +92,9 @@ function PostList({ posts, favorites, onToggleFavorite }) {
       {/* Sort button */}
       <div style={{ marginBottom: "1rem", textAlign: "right" }}>
         <button
-          onClick={() => setSortOrder(sortOrder === "Newest" ? "Oldest" : "Newest")}
+          onClick={() =>
+            setSortOrder(sortOrder === "Newest" ? "Oldest" : "Newest")
+          }
           style={{
             background: "#1e40af",
             color: "white",
