@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import LoadingSpinner from "./LoadingSpinner";
 import PostCard from "./PostCard";
+import LoadingSpinner from "./LoadingSpinner";
 import PostCount from "./PostCount";
 
 
@@ -120,8 +120,7 @@ function PostList({ favorites, onToggleFavorite }) {
       {sorted.map((post) => (
         <PostCard
           key={post.id}
-          title={post.title}
-          body={post.body}
+          post={post}
           isFavorite={favorites.includes(post.id)}
           onToggleFavorite={() => onToggleFavorite(post.id)}
         />
