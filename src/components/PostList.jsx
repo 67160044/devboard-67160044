@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
-import LoadingSpinner from "./LoadingSpinner";
 import PostCount from "./PostCount";
+import LoadingSpinner from "./LoadingSpinner";
 
 function PostList({ favorites, onToggleFavorite }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-
   const [sortOrder, setSortOrder] = useState("Newest");
 
   async function fetchPosts() {
