@@ -33,10 +33,21 @@ function FavoritesPage() {
           textAlign: "center",
         }}
       >
-        <p style={{ color: "#718096", fontSize: "1.1rem" }}>
+        <p style={{ color: "#ffffff", fontSize: "1.1rem" }}>
           ยังไม่มีโพสต์ที่ถูกใจ
         </p>
-        <Link to="/" style={{ color: "#1e40af" }}>
+        <Link
+          to="/"
+          style={{
+            display: "inline-block",
+            marginTop: "20px",
+            padding: "10px 20px",
+            background: "#1e40af",
+            color: "white",
+            textDecoration: "none",
+            borderRadius: "6px",
+          }}
+        >
           ← กลับหน้าหลัก
         </Link>
       </div>
