@@ -58,7 +58,7 @@ function PostList() {
         </button>
       </div>
 
-      <PostCount count={posts.length} />
+      <PostCount count={filtered.length} />
 
       <input
         type="text"
